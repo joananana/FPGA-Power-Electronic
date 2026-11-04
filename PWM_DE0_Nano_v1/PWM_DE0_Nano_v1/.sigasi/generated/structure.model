@@ -1,0 +1,257 @@
+{
+  "version": 8,
+  "name": "PWM_DE0_Nano_v1",
+  "projectBaseDir": "file:///c:/Users/joana/Engenharia/Mestrado%202026/FPGA/PWM_DE0_Nano_v1/PWM_DE0_Nano_v1",
+  "compilationGroupModel": {
+    "groups": [
+      {
+        "language": "VHDL",
+        "currentWorkingDirectory": {
+          "platformUri": "platform:/resource/PWM_DE0_Nano_v1/Design/",
+          "fileUri": "file:///c:/Users/joana/Engenharia/Mestrado%202026/FPGA/PWM_DE0_Nano_v1/PWM_DE0_Nano_v1/"
+        },
+        "resources": [
+          "platform:/resource/PWM_DE0_Nano_v1/Targets/rtl/work/pwm_core.vhd",
+          "platform:/resource/PWM_DE0_Nano_v1/Targets/rtl/work/tb_pwm_core.vhd"
+        ],
+        "includePaths": [],
+        "includeFallbackToLocalDirectory": false,
+        "additionalEnvVars": {},
+        "initialDefines": [],
+        "continueFrom": null,
+        "inferOrder": true,
+        "allowUndefine": false,
+        "allowUndefineAll": false,
+        "conditionalVariables": {},
+        "targetContext": {
+          "root": {
+            "project": "PWM_DE0_Nano_v1",
+            "version": "default",
+            "target": "rtl"
+          },
+          "actual": {
+            "project": "PWM_DE0_Nano_v1",
+            "version": "default",
+            "target": "rtl"
+          }
+        },
+        "allowFuzzyIncludeLookup": null
+      }
+    ],
+    "resourceTargetContexts": {
+      "platform:/resource/PWM_DE0_Nano_v1/Targets/rtl/work/pwm_core.vhd": {
+        "root": {
+          "project": "PWM_DE0_Nano_v1",
+          "version": "default",
+          "target": "rtl"
+        },
+        "actual": {
+          "project": "PWM_DE0_Nano_v1",
+          "version": "default",
+          "target": "rtl"
+        }
+      },
+      "platform:/resource/PWM_DE0_Nano_v1/Targets/rtl/work/tb_pwm_core.vhd": {
+        "root": {
+          "project": "PWM_DE0_Nano_v1",
+          "version": "default",
+          "target": "rtl"
+        },
+        "actual": {
+          "project": "PWM_DE0_Nano_v1",
+          "version": "default",
+          "target": "rtl"
+        }
+      }
+    }
+  },
+  "linkedResources": [
+    {
+      "source": "platform:/resource/PWM_DE0_Nano_v1",
+      "target": "virtual:/virtual",
+      "type": 2
+    },
+    {
+      "source": "platform:/resource/PWM_DE0_Nano_v1/VHDL%20Standard%20Libraries%5B2019%5D",
+      "target": "virtual:/virtual",
+      "type": 2
+    },
+    {
+      "source": "platform:/resource/PWM_DE0_Nano_v1/VHDL%20Standard%20Libraries%5B2019%5D/STD",
+      "target": "sigasiresource:/vhdl/2019/STD",
+      "type": 2
+    },
+    {
+      "source": "platform:/resource/PWM_DE0_Nano_v1/VHDL%20Standard%20Libraries%5B2019%5D/IEEE",
+      "target": "sigasiresource:/vhdl/2019/IEEE",
+      "type": 2
+    },
+    {
+      "source": "platform:/resource/PWM_DE0_Nano_v1/VHDL%20Standard%20Libraries%5B2019%5D/IEEE%20Synopsys",
+      "target": "sigasiresource:/vhdl/2019/IEEE%20Synopsys",
+      "type": 2
+    },
+    {
+      "source": "platform:/resource/PWM_DE0_Nano_v1/Design",
+      "target": "file:///c:/Users/joana/Engenharia/Mestrado%202026/FPGA/PWM_DE0_Nano_v1/PWM_DE0_Nano_v1",
+      "type": 2
+    },
+    {
+      "source": "platform:/resource/PWM_DE0_Nano_v1/Targets",
+      "target": "virtual:/virtual",
+      "type": 2
+    },
+    {
+      "source": "platform:/resource/PWM_DE0_Nano_v1/Targets/rtl",
+      "target": "virtual:/virtual",
+      "type": 2
+    },
+    {
+      "source": "platform:/resource/PWM_DE0_Nano_v1/Targets/rtl/work",
+      "target": "virtual:/virtual",
+      "type": 2
+    },
+    {
+      "source": "platform:/resource/PWM_DE0_Nano_v1/Targets/rtl/work/pwm_core.vhd",
+      "target": "file:///c:/Users/joana/Engenharia/Mestrado%202026/FPGA/PWM_DE0_Nano_v1/PWM_DE0_Nano_v1/pwm_core.vhd",
+      "type": 1
+    },
+    {
+      "source": "platform:/resource/PWM_DE0_Nano_v1/Targets/rtl/work/tb_pwm_core.vhd",
+      "target": "file:///c:/Users/joana/Engenharia/Mestrado%202026/FPGA/PWM_DE0_Nano_v1/PWM_DE0_Nano_v1/tb_pwm_core.vhd",
+      "type": 1
+    }
+  ],
+  "resourceInformation": {
+    "platform:/resource/PWM_DE0_Nano_v1/Targets/rtl/Common%20Libraries": {
+      "library": "not mapped",
+      "version": null,
+      "isLibraryFile": false
+    },
+    "platform:/resource/PWM_DE0_Nano_v1/Targets/rtl/work": {
+      "library": "work",
+      "version": null,
+      "isLibraryFile": false
+    },
+    "platform:/resource/PWM_DE0_Nano_v1/Targets/rtl/work/pwm_core.vhd": {
+      "library": null,
+      "version": "VHDL 2019",
+      "isLibraryFile": false
+    },
+    "platform:/resource/PWM_DE0_Nano_v1/Targets/rtl/work/tb_pwm_core.vhd": {
+      "library": null,
+      "version": "VHDL 2019",
+      "isLibraryFile": false
+    },
+    "platform:/resource/PWM_DE0_Nano_v1/VHDL%20Standard%20Libraries%5B2019%5D/STD": {
+      "library": "std",
+      "version": "VHDL 2019",
+      "isLibraryFile": true
+    },
+    "platform:/resource/PWM_DE0_Nano_v1/VHDL%20Standard%20Libraries%5B2019%5D/IEEE": {
+      "library": "ieee",
+      "version": "VHDL 2019",
+      "isLibraryFile": true
+    },
+    "platform:/resource/PWM_DE0_Nano_v1/VHDL%20Standard%20Libraries%5B2019%5D/IEEE%20Synopsys": {
+      "library": "ieee",
+      "version": "VHDL 2019",
+      "isLibraryFile": true
+    },
+    "platform:/resource/PWM_DE0_Nano_v1": {
+      "library": null,
+      "version": "VHDL 2019",
+      "isLibraryFile": false
+    }
+  },
+  "dependencyInformation": {},
+  "virtualFolderContents": {
+    "platform:/resource": [
+      {
+        "source": "platform:/resource/PWM_DE0_Nano_v1",
+        "target": "virtual:/virtual",
+        "type": 2
+      }
+    ],
+    "platform:/resource/PWM_DE0_Nano_v1": [
+      {
+        "source": "platform:/resource/PWM_DE0_Nano_v1/VHDL%20Standard%20Libraries%5B2019%5D",
+        "target": "virtual:/virtual",
+        "type": 2
+      },
+      {
+        "source": "platform:/resource/PWM_DE0_Nano_v1/Design",
+        "target": "file:///c:/Users/joana/Engenharia/Mestrado%202026/FPGA/PWM_DE0_Nano_v1/PWM_DE0_Nano_v1",
+        "type": 2
+      },
+      {
+        "source": "platform:/resource/PWM_DE0_Nano_v1/Targets",
+        "target": "virtual:/virtual",
+        "type": 2
+      }
+    ],
+    "platform:/resource/PWM_DE0_Nano_v1/VHDL%20Standard%20Libraries%5B2019%5D": [
+      {
+        "source": "platform:/resource/PWM_DE0_Nano_v1/VHDL%20Standard%20Libraries%5B2019%5D/STD",
+        "target": "sigasiresource:/vhdl/2019/STD",
+        "type": 2
+      },
+      {
+        "source": "platform:/resource/PWM_DE0_Nano_v1/VHDL%20Standard%20Libraries%5B2019%5D/IEEE",
+        "target": "sigasiresource:/vhdl/2019/IEEE",
+        "type": 2
+      },
+      {
+        "source": "platform:/resource/PWM_DE0_Nano_v1/VHDL%20Standard%20Libraries%5B2019%5D/IEEE%20Synopsys",
+        "target": "sigasiresource:/vhdl/2019/IEEE%20Synopsys",
+        "type": 2
+      }
+    ],
+    "platform:/resource/PWM_DE0_Nano_v1/Targets": [
+      {
+        "source": "platform:/resource/PWM_DE0_Nano_v1/Targets/rtl",
+        "target": "virtual:/virtual",
+        "type": 2
+      }
+    ],
+    "platform:/resource/PWM_DE0_Nano_v1/Targets/rtl": [
+      {
+        "source": "platform:/resource/PWM_DE0_Nano_v1/Targets/rtl/work",
+        "target": "virtual:/virtual",
+        "type": 2
+      }
+    ],
+    "platform:/resource/PWM_DE0_Nano_v1/Targets/rtl/work": [
+      {
+        "source": "platform:/resource/PWM_DE0_Nano_v1/Targets/rtl/work/pwm_core.vhd",
+        "target": "file:///c:/Users/joana/Engenharia/Mestrado%202026/FPGA/PWM_DE0_Nano_v1/PWM_DE0_Nano_v1/pwm_core.vhd",
+        "type": 1
+      },
+      {
+        "source": "platform:/resource/PWM_DE0_Nano_v1/Targets/rtl/work/tb_pwm_core.vhd",
+        "target": "file:///c:/Users/joana/Engenharia/Mestrado%202026/FPGA/PWM_DE0_Nano_v1/PWM_DE0_Nano_v1/tb_pwm_core.vhd",
+        "type": 1
+      }
+    ]
+  },
+  "targets": {
+    "rtl": {
+      "directoryPath": "c:\\Users\\joana\\Engenharia\\Mestrado 2026\\FPGA\\PWM_DE0_Nano_v1\\PWM_DE0_Nano_v1",
+      "libraryMapping": {
+        "": [
+          "work"
+        ]
+      },
+      "declaredDependencies": [],
+      "kind": "MANUAL"
+    }
+  },
+  "configurableIncludes": {},
+  "trackedFiles": [
+    "c:\\Users\\joana\\Engenharia\\Mestrado 2026\\FPGA\\PWM_DE0_Nano_v1\\PWM_DE0_Nano_v1\\project.sigasi",
+    "c:\\Users\\joana\\Engenharia\\Mestrado 2026\\FPGA\\PWM_DE0_Nano_v1\\PWM_DE0_Nano_v1\\.sigasi\\settings.json",
+    "c:\\Users\\joana\\Engenharia\\Mestrado 2026\\FPGA\\PWM_DE0_Nano_v1\\PWM_DE0_Nano_v1\\pwm_core.vhd",
+    "c:\\Users\\joana\\Engenharia\\Mestrado 2026\\FPGA\\PWM_DE0_Nano_v1\\PWM_DE0_Nano_v1\\tb_pwm_core.vhd"
+  ],
+  "cachedVersionMapping": null
+}

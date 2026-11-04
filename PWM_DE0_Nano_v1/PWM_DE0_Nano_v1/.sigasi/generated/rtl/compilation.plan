@@ -1,0 +1,39 @@
+{
+  "version": 3,
+  "compilationGroups": [
+    {
+      "language": "VHDL",
+      "library": "work",
+      "resources": [
+        {
+          "path": "c:\\Users\\joana\\Engenharia\\Mestrado 2026\\FPGA\\PWM_DE0_Nano_v1\\PWM_DE0_Nano_v1\\pwm_core.vhd",
+          "hdlVersion": "VHDL 2019",
+          "kind": "COMPILE_FILE"
+        },
+        {
+          "path": "c:\\Users\\joana\\Engenharia\\Mestrado 2026\\FPGA\\PWM_DE0_Nano_v1\\PWM_DE0_Nano_v1\\tb_pwm_core.vhd",
+          "hdlVersion": "VHDL 2019",
+          "kind": "COMPILE_FILE"
+        }
+      ],
+      "overrideDirectives": {},
+      "undefineMacroNames": [],
+      "includePaths": [],
+      "includeFallbackToLocalDirectory": false,
+      "additionalEnvironmentVariables": {},
+      "libraryResourcesConfig": null,
+      "currentWorkingDirectory": "c:\\Users\\joana\\Engenharia\\Mestrado 2026\\FPGA\\PWM_DE0_Nano_v1\\PWM_DE0_Nano_v1",
+      "inferOrder": true,
+      "inferLibrary": false,
+      "allowUndefineInitialDefine": false,
+      "allowUndefineAllInitialDefine": false,
+      "conditionalVariables": {},
+      "target": {
+        "project": "PWM_DE0_Nano_v1",
+        "version": "default",
+        "target": "rtl"
+      },
+      "shouldBeValidated": true
+    }
+  ]
+}

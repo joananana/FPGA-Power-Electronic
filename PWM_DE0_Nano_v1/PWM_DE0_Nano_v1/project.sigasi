@@ -1,0 +1,10 @@
+{
+    "name": "PWM_DE0_Nano_v1",
+    "targets": {
+        "rtl": {
+            "libraryMapping": {
+                "": "work"
+            }
+        }
+    }
+}
