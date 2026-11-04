@@ -1,68 +1,129 @@
-# PWM simplificado para DE0-Nano
 
-Versao simplificada: somente dente de serra, uma saida e nenhum tempo morto.
-O pacote substitui a arquitetura anterior, com a entidade `pwm_core`.
+# Modulador PWM em VHDL — DE0-Nano
 
-## Interface
+## 1. Descrição geral
 
-| Porta | Funcao |
+Este projeto apresenta a implementação de um modulador PWM (*Pulse Width Modulation*) em VHDL, desenvolvido para a FPGA Cyclone IV E da placa DE0-Nano.
+
+O módulo utiliza um contador crescente de 16 bits, que gera uma rampa digital do tipo dente de serra. A comparação entre o contador e a referência de duty cycle determina a largura dos pulsos de saída.
+
+A implementação permite configurar o período e o duty cycle de forma independente. Posteriormente, o módulo será adaptado para integração com um controlador PI.
+
+## 2. Interface
+
+O modulador está implementado no arquivo `pwm_core.vhd`.
+
+| Porta | Tipo | Função |
+|---|---|---|
+| `clk` | `std_logic` | Clock de referência de 50 MHz |
+| `reset` | `std_logic` | Reset assíncrono ativo em nível alto |
+| `period_ticks` | `unsigned(15 downto 0)` | Número de ciclos de clock por período |
+| `duty_ticks` | `unsigned(15 downto 0)` | Número de ciclos em nível alto |
+| `pwm_out` | `std_logic` | Saída PWM |
+
+## 3. Funcionamento
+
+O contador interno (`counter`) possui 16 bits e é incrementado a cada borda de subida do clock, percorrendo os valores de 0 até `period_ticks - 1`. Ao atingir esse limite, retorna a zero e inicia um novo período.
+
+A geração do PWM é realizada pela comparação:
+
+```vhdl
+if counter < duty_ticks then
+    pwm_out <= '1';
+else
+    pwm_out <= '0';
+end if;
+```
+
+Assim, a saída permanece em nível alto enquanto o contador for menor que `duty_ticks`, e em nível baixo no restante do período.
+
+Como a saída é registrada, a comparação utiliza o valor anterior do contador, produzindo um deslocamento de um ciclo de clock em relação ao contador atualizado, sem alterar a frequência ou o duty cycle em regime permanente.
+
+A frequência e a razão cíclica são determinadas por:
+
+
+A frequência e a razão cíclica são determinadas por:
+
+**Frequência do PWM:**
+
+`f_PWM = f_clk / period_ticks`
+
+**Duty cycle:**
+
+`D (%) = (duty_ticks / period_ticks) × 100`
+
+**Exemplo:** considerando `f_clk = 50 MHz`, `period_ticks = 1000` e `duty_ticks = 400`:
+
+| Parâmetro | Resultado |
 |---|---|
-| clk | Clock de 50 MHz da placa |
-| reset | Ativo alto: zera o contador e mantem pwm_out em zero |
-| period_ticks | Periodo completo N, unsigned de 16 bits |
-| duty_ticks | Largura D do pulso alto, unsigned de 16 bits |
-| pwm_out | Unica saida PWM registrada |
+| Frequência PWM | 50 kHz |
+| Período | 20 µs |
+| Duty cycle | 40% |
+| Tempo em nível alto | 8 µs |
+| Tempo em nível baixo | 12 µs |
+| Resolução do duty | 0,1% |
 
-Unico sinal interno declarado: `counter`, unsigned de 16 bits.
-Um unico processo sequencial implementa contador, comparacao e saida.
+Embora o contador possua 16 bits, a resolução efetiva depende de `period_ticks`. Quanto maior o número de ciclos por período, menor o incremento possível do duty cycle.
 
-O contador avanca de 0 ate N-1 e volta a zero. Em cada borda de subida,
-pwm_out recebe 1 quando o valor anterior de counter e menor que D.
-Caso contrario, recebe 0. Como as atribuicoes de sinais ocorrem juntas,
-o contador observado depois da borda ja mostra o proximo valor. Isso nao
-acrescenta um clock ao periodo do PWM.
+## 4. Condições de operação
 
-    f_PWM = f_clk / N
-    razao_ciclica = D / N
+O módulo possui reset assíncrono, que zera o contador e desliga a saída PWM quando ativado.
 
-Exemplo: clk=50 MHz, N=1000, D=400: f_PWM=50 kHz e duty=40%.
-O periodo e 20 us, com 8 us em nivel alto e 12 us em nivel baixo.
+Os parâmetros devem respeitar os seguintes limites:
 
-## Simplificacoes
+- `period_ticks`: 2 a 65535.
+- `duty_ticks`: 0 até `period_ticks`.
+- `duty_ticks = 0`: saída permanentemente baixa.
+- `duty_ticks = period_ticks`: saída permanentemente alta em regime permanente.
 
-- Retirados carrier_mode, deadtime_ticks, enable e a saida complementar.
-- Retirados todos os registradores de configuracao e sinais de tempo morto.
-- Retirado o generic WIDTH. Os dois parametros usam 16 bits fixos.
-- Sem prescaler, barramento, handshake ou atualizacao durante operacao.
-- Mantida uma verificacao simples de limites, sem sinal interno de validade.
+Configurações inválidas zeram o contador e a saída na próxima borda de subida do clock.
 
-## Operacao e limites
+Nesta versão, os parâmetros devem ser configurados durante o reset e mantidos estáveis durante a operação. A liberação do reset deve ser sincronizada externamente ao clock.
 
-- Aplicar reset na inicializacao. Para parar, manter reset=1.
-- Alterar period_ticks e duty_ticks enquanto reset=1.
-- Manter os dois parametros estaveis enquanto reset=0.
-- A assercao do reset e assincrona. O circuito externo deve sincronizar sua
-  liberacao com clk e garantir que os parametros respeitem setup/hold.
-- N valido: 2 a 65535. D valido: 0 a N.
-- D=0 gera saida sempre baixa. D=N gera saida sempre alta apos liberar reset.
-- N invalido ou D>N zera contador e saida na proxima borda de subida.
-- Cada contagem representa 20 ns. O passo de duty e 1/N.
+## 5. Simulação e validação
 
-## Simulacao
+A validação funcional foi realizada no **Questa Altera FPGA Starter Edition 2025.2**, utilizando os seguintes arquivos:
 
-No ModelSim/Questa, dentro do diretorio dos arquivos:
+| Arquivo | Função |
+|---|---|
+| `pwm_core.vhd` | Implementação do PWM |
+| `tb_pwm_core.vhd` | Testbench de validação |
+| `run_modelsim.do` | Script de execução da simulação |
 
-    do run_modelsim.do
+Para executar a simulação no diretório dos arquivos:
 
-O testbench varre todos os duties para pequenos periodos e verifica tambem
-o exemplo de 50 kHz, o limite de 16 bits, 0%, 100%, reset e parametros invalidos.
+```tcl
+do run_modelsim.do
+```
 
-Estado: codigo revisado e testbench preparado. A simulacao desta versao ainda
-nao foi executada. Na tentativa anterior, o GHDL deste ambiente apresentou
-falha interna antes da analise do VHDL. Nao ha validacao de sintese, timing
-ou teste na placa nesta entrega.
+O testbench verifica diferentes combinações de períodos e duty cycles, incluindo valores extremos, reset assíncrono e parâmetros inválidos.
 
-## Integracao
+Também é realizado o teste de PWM de 50 kHz com duty cycle de 40%.
 
-Esta entrega contem somente o componente e os testes. Top-level, pinos,
-constraints de clock e interface com o driver pertencem a integracao posterior.
+As verificações são realizadas automaticamente por meio de instruções `assert`.
+
+A simulação foi concluída com sucesso, apresentando:
+
+```text
+Note: PASS: periodo, duty, extremos, reset e parametros invalidos
+```
+
+Esse resultado confirma que o módulo passou nos testes funcionais implementados.
+
+## 6. Próximas etapas
+
+A próxima etapa será adaptar o modulador para integração com o controlador PI desenvolvido por outro grupo.
+
+As principais modificações previstas são:
+
+1. **Frequência fixa:** definir o período de chaveamento conforme os requisitos do sistema.
+2. **Interface com o PI:** receber o comando de duty cycle no formato numérico estabelecido entre os grupos.
+3. **Atualização dinâmica do duty:** permitir alterações durante o funcionamento, aplicando o novo valor no início do período PWM.
+4. **Validação da integração:** testar alterações de duty sem reset e verificar a manutenção da frequência.
+5. **Implementação na FPGA:** realizar a síntese no Quartus Prime, configurar os pinos e o clock e testar o funcionamento na DE0-Nano.
+
+## 7. Estado atual
+
+O modulador PWM está implementado em VHDL e foi validado funcionalmente no Questa, incluindo testes de frequência, duty cycle, condições extremas e reset.
+
+A versão atual permite configurar independentemente o período e a razão cíclica. As próximas etapas envolvem sua adaptação para receber o comando de um controlador PI e a posterior validação em hardware.
