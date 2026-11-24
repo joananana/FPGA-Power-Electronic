@@ -1,0 +1,68 @@
+# Quartus Prime - generated databases and build outputs
+**/db/
+**/incremental_db/
+**/output_files/
+**/greybox_tmp/
+**/qsys_edit/
+**/.qsys_edit/
+*.qws
+*.qdf
+*.rpt
+*.summary
+*.smsg
+*.jdi
+*.sld
+*.sld_design_entry.sci
+*.pin
+*.sof
+*.pof
+*.jic
+*.rbf
+*.rpd
+*.done
+*.qarlog
+*.qmsg
+*.qdb
+*.cdf.bak
+
+# Quartus EDA simulation output (standard generated location)
+**/simulation/modelsim/
+**/simulation/questa/
+**/simulation/questa_fse/
+
+# Questa / ModelSim - compiled libraries and simulation outputs
+**/work/
+**/rtl_work/
+**/gate_work/
+**/vsim.dbg/
+**/transcript
+**/transcript.*
+*.wlf
+*.vstf
+*.vcd
+*.ucdb
+*.ucdb.*
+*.wlf.lock
+*.vpd
+*.fst
+*.mti
+*.mpf
+*.cr.mti
+*.stacktrace
+# Local simulator configuration; remove this rule if customized for the project
+modelsim.ini
+
+# Logs, temporary files and editor backups
+*.log
+*.bak
+*.tmp
+*.swp
+*.swo
+*~
+*.qsf.bak
+*.vhd.bak
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini

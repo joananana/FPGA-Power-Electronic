@@ -112,38 +112,120 @@ Os resultados confirmam que, nas condições simuladas, o duty ativo permanece c
 
 ## 5. Implementação na DE0-Nano
 
-Além da validação por simulação, está prevista a implementação do modulador PWM isoladamente na FPGA DE0-Nano.
+O modulador PWM foi sintetizado e implementado no Quartus Prime Lite Edition 25.1, utilizando a FPGA Cyclone IV E (EP4CE22F17C6) da placa DE0-Nano.
 
-Para isso, será desenvolvido um módulo superior (`pwm_top.vhd`) que permitirá fornecer diferentes comandos de duty cycle ao `pwm_core`, utilizando as chaves disponíveis na placa.
+Foi desenvolvido um módulo superior (`pwm_top.vhd`) responsável pela interface entre o `pwm_core` e os recursos físicos da placa.
 
-A saída PWM será direcionada a um pino GPIO para análise com um osciloscópio.
+O módulo superior contempla:
 
-Os testes experimentais terão como objetivos:
+- Clock de 50 MHz;
+- Quatro chaves DIP para seleção do duty cycle;
+- Sincronização das entradas em dois estágios;
+- Reset com ativação assíncrona e liberação sincronizada;
+- Saída PWM direcionada a um GPIO.
 
-- Verificar a frequência fixa de 50 kHz.
-- Medir a largura dos pulsos para diferentes valores de duty cycle.
-- Testar os limites de 0% e 100%.
-- Observar o comportamento durante alterações do comando.
-- Comparar os resultados experimentais com as simulações.
+### 5.1. Configuração da pinagem
 
-O módulo superior também deverá tratar adequadamente os sinais provenientes das chaves físicas, incluindo sua sincronização com o clock da FPGA.
+| Sinal | Pino FPGA | Função |
+|---|---|---|
+| `CLOCK_50` | PIN_R8 | Clock de 50 MHz |
+| `KEY0` | PIN_J15 | Reset ativo baixo |
+| `SW[0]` | PIN_M1 | Seleção do duty |
+| `SW[1]` | PIN_T8 | Seleção do duty |
+| `SW[2]` | PIN_B9 | Seleção do duty |
+| `SW[3]` | PIN_M15 | Seleção do duty |
+| `PWM_OUT` | PIN_D3 | Saída PWM (GPIO) |
+
+Todos os pinos utilizados foram configurados com o padrão elétrico **3.3-V LVTTL**.
+
+### 5.2. Seleção do duty cycle
+
+As quatro chaves DIP permitem selecionar 16 condições de operação:
+
+| SW[3:0] | `duty_cmd` | Duty aplicado |
+|---|---:|---:|
+| 0000 | 0 | 0% |
+| 0001 | 100 | 10% |
+| 0010 | 200 | 20% |
+| 0011 | 300 | 30% |
+| 0100 | 400 | 40% |
+| 0101 | 500 | 50% |
+| 0110 | 600 | 60% |
+| 0111 | 700 | 70% |
+| 1000 | 800 | 80% |
+| 1001 | 900 | 90% |
+| 1010 | 1000 | 100% |
+| 1011 | 1 | 0,1% |
+| 1100 | 250 | 25% |
+| 1101 | 750 | 75% |
+| 1110 | 999 | 99,9% |
+| 1111 | 1200 | 100% (saturado) |
+
+### 5.3. Arquivos de implementação
+
+| Arquivo | Função |
+|---|---|
+| `pwm_top.vhd` | Interface com os recursos físicos da placa |
+| `pwm_top.sdc` | Restrições de temporização |
+| `PWM_DE0_Nano_v2.qpf` | Projeto do Quartus |
+| `PWM_DE0_Nano_v2.qsf` | Configuração do dispositivo e pinagem |
+
+Para compilar o projeto, abrir o arquivo `.qpf` no Quartus e executar `Processing > Start Compilation`.
+
+### 5.4. Resultados da implementação
+
+A compilação completa foi concluída com sucesso.
+
+| Parâmetro | Resultado |
+|---|---:|
+| Elementos lógicos utilizados | 67 |
+| Registradores | 37 |
+| Utilização lógica | 0,30% |
+| Frequência máxima estimada (Fmax) | 200,88 MHz |
+| Setup Slack | 15,022 ns |
+| Hold Slack | 0,194 ns |
+| Total Negative Slack (TNS) | 0 ns |
+
+Os resultados correspondem à implementação do modulador PWM juntamente com o módulo superior.
+
+A análise de temporização indica que os caminhos restritos atendem aos requisitos de operação com clock de 50 MHz.
+
 
 ## 6. Próximas etapas
 
 As atividades restantes para a conclusão do módulo PWM são:
 
-1. **Projeto no Quartus Prime:** configurar a FPGA Cyclone IV E e realizar a síntese do modulador.
-2. **Módulo de teste:** desenvolver o `pwm_top.vhd` para fornecer diferentes comandos de duty utilizando as chaves da placa.
-3. **Configuração da FPGA:** definir os pinos de entrada e saída e as restrições de clock.
-4. **Análise de implementação:** verificar a utilização de recursos e o atendimento aos requisitos de temporização.
-5. **Validação experimental:** programar a DE0-Nano e verificar a saída PWM com um osciloscópio.
+1. **Programação da FPGA:** carregar o arquivo `.sof` gerado pelo Quartus na DE0-Nano.
+2. **Validação experimental:** verificar o funcionamento do modulador e da interface com as chaves DIP utilizando um osciloscópio.
+3. **Integração com o controlador PI:** substituir o comando manual de duty cycle pelo comando proveniente da malha de controle.
+
+Os testes experimentais terão como objetivos:
+
+- Verificar a frequência fixa de 50 kHz.
+- Verificar as razões cíclicas selecionadas pelas chaves DIP.
+- Medir a largura dos pulsos para diferentes valores de duty cycle.
+- Testar os limites de 0% e 100%.
+- Verificar a saturação do comando.
+- Verificar o funcionamento do reset.
+- Observar o comportamento durante alterações do duty cycle.
+- Comparar os resultados experimentais com as simulações.
 
 ## 7. Estado atual
 
-A segunda versão do modulador PWM está implementada em VHDL e foi validada funcionalmente no Questa.
+- [x] Desenvolvimento do modulador PWM V2.
+- [x] Validação funcional do `pwm_core` no Questa.
+- [x] Desenvolvimento do módulo superior.
+- [x] Configuração da pinagem e das restrições de clock.
+- [x] Síntese e fitting no Quartus.
+- [x] Análise de recursos e temporização dos caminhos restritos.
+- [ ] Programação da DE0-Nano.
+- [ ] Validação experimental com osciloscópio.
+- [ ] Integração com o controlador PI.
 
-O módulo opera com frequência fixa, permite receber novos comandos de duty cycle durante a operação e realiza sua atualização somente no início de cada período.
+O modulador PWM está implementado em VHDL, validado funcionalmente no Questa e sintetizado com sucesso no Quartus Prime.
 
-**A próxima etapa é implementar e testar o PWM isoladamente na DE0-Nano**, confirmando em hardware os resultados obtidos nas simulações.
+Os resultados da análise de temporização indicam que os caminhos restritos atendem aos requisitos de operação com clock de 50 MHz.
+
+**A próxima etapa é programar a DE0-Nano e validar experimentalmente o funcionamento do PWM, incluindo a interface com os recursos físicos da placa.**
 
 Após essa validação, o módulo poderá ser disponibilizado para integração com os demais componentes da malha de controle.
